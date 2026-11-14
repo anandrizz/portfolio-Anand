@@ -1,0 +1,56 @@
+"use client";
+
+import { useId } from "react";
+import { cn } from "@/lib/utils";
+
+interface AnimatedGridPatternProps {
+  width?: number;
+  height?: number;
+  x?: number;
+  y?: number;
+  strokeDasharray?: any;
+  numSquares?: number;
+  className?: string;
+  maxOpacity?: number;
+  duration?: number;
+  repeatDelay?: number;
+}
+
+export function AnimatedGridPattern({
+  width = 40,
+  height = 40,
+  x = -1,
+  y = -1,
+  strokeDasharray = 0,
+  className,
+}: AnimatedGridPatternProps) {
+  const id = useId();
+
+  return (
+    <svg
+      aria-hidden="true"
+      className={cn(
+        "pointer-events-none absolute inset-0 h-full w-full fill-zinc-400/5 stroke-zinc-700/20 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]",
+        className
+      )}
+    >
+      <defs>
+        <pattern
+          id={id}
+          width={width}
+          height={height}
+          patternUnits="userSpaceOnUse"
+          x={x}
+          y={y}
+        >
+          <path
+            d={`M.5 ${height}V.5H${width}`}
+            fill="none"
+            strokeDasharray={strokeDasharray}
+          />
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" strokeWidth={0} fill={`url(#${id})`} />
+    </svg>
+  );
+}
